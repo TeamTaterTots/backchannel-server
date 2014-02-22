@@ -17,7 +17,8 @@ test:
   <<: *common
   database: backchannel_server_test
 
-production:
-  <<: *common
-  database: backchannel_server_prod
+# Heroku ignores database.yml anyways
+#production:
+#  <<: *common
+#  database: backchannel_server_prod
  
