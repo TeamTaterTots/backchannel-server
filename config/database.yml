@@ -4,7 +4,7 @@ common: &common
   timeout: 5000
   host: localhost
   username: postgres
-  password: postgresPWD SQLite version 3.x
+  password: postgresPWD
 
 development:
   <<: *common
