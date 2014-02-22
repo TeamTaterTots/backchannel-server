@@ -4,7 +4,7 @@ common: &common
   timeout: 5000
   host: localhost
   username: postgres
-  password: postgresPWD SQLite version 3.x
+  password: postgresPWD
 
 development:
   <<: *common
@@ -17,7 +17,8 @@ test:
   <<: *common
   database: backchannel_server_test
 
-production:
-  <<: *common
-  database: backchannel_server_prod
+# Heroku ignores database.yml anyways
+#production:
+#  <<: *common
+#  database: backchannel_server_prod
  
