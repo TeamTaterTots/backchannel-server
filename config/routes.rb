@@ -1,4 +1,6 @@
 BackchannelServer::Application.routes.draw do
+  resources :places
+
   resources :channels
 
   # The priority is based upon order of creation: first created -> highest priority.
