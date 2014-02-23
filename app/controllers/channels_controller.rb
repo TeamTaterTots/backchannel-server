@@ -11,9 +11,7 @@ class ChannelsController < ApplicationController
   # GET /channels/1
   # GET /channels/1.json
   def show
-    respond_to do |format|
-      format.json { render json: @channel }
-    end
+    render json: @channel
   end
 
   # GET /channels/new

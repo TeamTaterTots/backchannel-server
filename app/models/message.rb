@@ -1,5 +1,5 @@
 class Message < ActiveRecord::Base
-  #belongs_to :channel
+  belongs_to :channel
 
   class << self
     def backlog(channel_id, ts)

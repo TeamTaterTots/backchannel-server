@@ -25,13 +25,14 @@ class MessagesController < ApplicationController
   # POST /messages.json
   def create
     @channel = Channel.find(params[:channel_id])
-    @message = @channel.messages.build( :nick => params[:nick], :text => params[:text])
+    puts message_params
+    @message = @channel.messages.build(message_params)
 
     respond_to do |format|
       if @message.save
-        render json: { status: :created }
+        format.json { render json: @message, status: :created }
       else
-         render json: { @message.errors, status: :unprocessable_entity }
+        format.json { render json: @message.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -46,7 +47,7 @@ class MessagesController < ApplicationController
   #      format.json { render json: @message.errors, status: :unprocessable_entity }
   #    end
   #  end
-  end
+  # end
 
   # DELETE /messages/1
   # DELETE /messages/1.json
@@ -58,13 +59,13 @@ class MessagesController < ApplicationController
   #end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_message
-      @message = Message.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_message
+    @message = Message.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def message_params
-      params.require(:message).permit(:channel_id, :nick, :text)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def message_params
+    params.require(:message).permit(:channel_id, :nick, :text)
+  end
 end
