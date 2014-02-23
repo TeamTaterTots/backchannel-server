@@ -5,7 +5,8 @@ class MessagesController < ApplicationController
   # GET /messages.json
   def index
     @channel = Channel.find(params[:channel_id])
-    @messages = @channel.messages.created_after(params[:ts]).pluck(:nick, :text, :created_at)
+    time = params[:ts] || 10.minutes.ago
+    @messages = @channel.messages.created_after(time)
 
     render json: @messages
   end
@@ -28,7 +29,6 @@ class MessagesController < ApplicationController
   # POST /messages.json
   def create
     @channel = Channel.find(params[:channel_id])
-    puts message_params
     @message = @channel.messages.build(message_params)
 
     respond_to do |format|
