@@ -1,4 +1,6 @@
 BackchannelServer::Application.routes.draw do
+  resources :messages
+
   resources :places do
     resources :channels
   end
