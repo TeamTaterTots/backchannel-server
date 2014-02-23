@@ -15,7 +15,6 @@ class ChannelsController < ApplicationController
 
   # GET /channels/new
   def new
-    @channel = Channel.new
   end
 
   # GET /channels/1/edit
@@ -25,14 +24,16 @@ class ChannelsController < ApplicationController
   # POST /channels
   # POST /channels.json
   def create
-    @channel = Channel.new(channel_params)
+    @place = Place.new
+    @place.foursquare_venue_id = params[:foursquare_venue_id]
+    @channel = @place.channels.build(channel_params)
 
     respond_to do |format|
       if @channel.save
-        format.html { redirect_to @channel, notice: 'Channel was successfully created.' }
+        # format.html { redirect_to @channel, notice: 'Channel was successfully created.' }
         format.json { render action: 'show', status: :created, location: @channel }
       else
-        format.html { render action: 'new' }
+        # format.html { render action: 'new' }
         format.json { render json: @channel.errors, status: :unprocessable_entity }
       end
     end
@@ -43,10 +44,10 @@ class ChannelsController < ApplicationController
   def update
     respond_to do |format|
       if @channel.update(channel_params)
-        format.html { redirect_to @channel, notice: 'Channel was successfully updated.' }
+        # format.html { redirect_to @channel, notice: 'Channel was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: 'edit' }
+        # format.html { render action: 'edit' }
         format.json { render json: @channel.errors, status: :unprocessable_entity }
       end
     end

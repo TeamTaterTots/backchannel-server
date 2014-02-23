@@ -21,12 +21,13 @@ class Place < ActiveRecord::Base
       @places = []
 
       @places_raw.venues.each do |place|
+        @channels = (Place.exists?(place.id) && Place.find(place.id).channels) || nil
         @places << {
           icon: place.categories.first.icon,
-          id: place.id,
+          foursquare_venue_id: place.id,
           name: place.name,
           distance: place.location.distance,
-          # channels: Place.self.channels
+          channels: @channels
         }
       end
 

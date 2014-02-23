@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140223052842) do
+ActiveRecord::Schema.define(version: 20140223065206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,7 +24,10 @@ ActiveRecord::Schema.define(version: 20140223052842) do
   end
 
   create_table "places", id: false, force: true do |t|
-    t.string "foursquare_venue_id", null: false
+    t.string  "foursquare_venue_id",                          null: false
+    t.string  "name"
+    t.text    "icon"
+    t.decimal "distance",            precision: 10, scale: 1
   end
 
 end
