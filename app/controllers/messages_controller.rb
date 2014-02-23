@@ -24,42 +24,38 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
-    @message = Message.new(message_params)
+    @channel = Channel.find(params[:channel_id])
+    @message = @channel.messages.build( :nick => params[:nick], :text => params[:text])
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to @message, notice: 'Message was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @message }
+        render json: { status: :created }
       else
-        format.html { render action: 'new' }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
+         render json: { @message.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # PATCH/PUT /messages/1
   # PATCH/PUT /messages/1.json
-  def update
-    respond_to do |format|
-      if @message.update(message_params)
-        format.html { redirect_to @message, notice: 'Message was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
-      end
-    end
+  #def update
+  #  respond_to do |format|
+  #   if @message.update(message_params)
+  #      format.json { head :no_content }
+  #    else
+  #      format.json { render json: @message.errors, status: :unprocessable_entity }
+  #    end
+  #  end
   end
 
   # DELETE /messages/1
   # DELETE /messages/1.json
-  def destroy
-    @message.destroy
-    respond_to do |format|
-      format.html { redirect_to messages_url }
-      format.json { head :no_content }
-    end
-  end
+  #def destroy
+  #  @message.destroy
+  #  respond_to do |format|
+  #    format.json { head :no_content }
+  #  end
+  #end
 
   private
     # Use callbacks to share common setup or constraints between actions.
