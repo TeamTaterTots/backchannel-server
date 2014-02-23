@@ -3,7 +3,6 @@ require 'foursquare2'
 class Place #< ActiveResource::Base
   #self.site = "https://api.foursquare.com/v2/venues/search"
   #has_many :channels
-  
 
 #  attr_accessor :client
   @client = Foursquare2::Client.new(
@@ -17,11 +16,22 @@ class Place #< ActiveResource::Base
     )
 
   class << self
-    def index_nearby(latitude, longitude)
-      latitude||=44.3
-      longitude||=37.2
-      @client.search_venues(:ll =>"#{latitude},#{longitude}")
-      #client.explore_venues(ll: "#{latitude},#{longitude}")
+    def find_nearby(latitude, longitude)
+      # @client.explore_venues(:ll => "#{latitude},#{longitude}")
+      @places_raw = @client.search_venues(:ll => "#{latitude},#{longitude}", :limit => 15)
+      @places = []
+
+      @places_raw.venues.each do |place|
+        @places << {
+          icon: place.categories.first.icon,
+          id: place.id,
+          name: place.name,
+          distance: place.location.distance,
+          # channels: Place.self.channels
+        }
+      end
+
+      @places
     end
   end
 end
