@@ -11,6 +11,9 @@ class ChannelsController < ApplicationController
   # GET /channels/1
   # GET /channels/1.json
   def show
+    respond_to do |format|
+      format.json { render json: @channel }
+    end
   end
 
   # GET /channels/new
@@ -24,14 +27,21 @@ class ChannelsController < ApplicationController
   # POST /channels
   # POST /channels.json
   def create
-    @place = Place.new
-    @place.foursquare_venue_id = params[:id]
+    begin
+      @place = Place.find(params[:place_id])
+    rescue ActiveRecord::RecordNotFound => e
+      @place = Place.new
+      @place.foursquare_venue_id = params[:place_id]
+      @place.save
+    end
     @channel = @place.channels.build(channel_params)
 
-    if @channel.save
-      format.json { render action: 'show', status: :created, location: @channel }
-    else
-      format.json { render json: @channel.errors, status: :unprocessable_entity }
+    respond_to do |format|
+      if @channel.save
+        format.json { render json: @channel, status: :created, location: @channel }
+      else
+        format.json { render json: @channel.errors, status: :unprocessable_entity }
+      end
     end
   end
 
