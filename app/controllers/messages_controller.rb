@@ -4,7 +4,10 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    @messages = Message.all
+    @channel = Channel.find(params[:channel_id])
+    @messages = @channel.messages.created_after(params[:ts]).pluck(:nick, :text, :created_at)
+
+    render json: @messages
   end
 
   # GET /messages/1
