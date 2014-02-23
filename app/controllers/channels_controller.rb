@@ -25,17 +25,13 @@ class ChannelsController < ApplicationController
   # POST /channels.json
   def create
     @place = Place.new
-    @place.foursquare_venue_id = params[:foursquare_venue_id]
+    @place.foursquare_venue_id = params[:id]
     @channel = @place.channels.build(channel_params)
 
-    respond_to do |format|
-      if @channel.save
-        # format.html { redirect_to @channel, notice: 'Channel was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @channel }
-      else
-        # format.html { render action: 'new' }
-        format.json { render json: @channel.errors, status: :unprocessable_entity }
-      end
+    if @channel.save
+      format.json { render action: 'show', status: :created, location: @channel }
+    else
+      format.json { render json: @channel.errors, status: :unprocessable_entity }
     end
   end
 
