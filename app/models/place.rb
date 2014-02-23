@@ -15,11 +15,13 @@ class Place < ActiveRecord::Base
   )
 
   class << self
-    def search_nearby(latitude, longitude)
+    def search_nearby(latitude, longitude) # and hack the URBN center into all responses
       # @client.explore_venues(:ll => "#{latitude},#{longitude}")
       @existing_places = Place.all(:select => :foursquare_venue_id).to_a
       @places_raw = @@foursq_client.search_venues(:ll => "#{latitude},#{longitude}", :limit => 15)
       @places = []
+
+      @places << Place.find("4c80f8a62f1c236aac072b43") # hack the URBN center into all responses
 
       @places_raw.venues.each do |place|
         @places << ((Place.exists?(place.id) && Place.find(place.id)) ||
@@ -28,6 +30,8 @@ class Place < ActiveRecord::Base
                               name: place.name,
                               distance: place.location.distance))
       end
+
+      puts @places
 
       @places
     end
