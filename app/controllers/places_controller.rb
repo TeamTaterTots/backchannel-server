@@ -4,8 +4,8 @@ class PlacesController < ApplicationController
   # GET /places
   # GET /places.json
   def index
-    @places = Place.index_nearby(params[:latitude], params[:longitude])
-    
+    @places = Place.find_nearby(params[:latitude], params[:longitude])
+
     render json: @places
 
     # Fake data
