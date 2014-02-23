@@ -4,8 +4,12 @@ class PlacesController < ApplicationController
   # GET /places
   # GET /places.json
   def index
-    #@places = Place.all
-    render :json => {id: 'A9ABCD', name: 'Gold', distance: 0.70, channels: 5, image: 'http://d3bro1z16yfjvi.cloudfront.net/images/importance_1.png?1349367920'}.to_json
+    @places = Place.index_nearby(params[:latitude], params[:longitude])
+    
+    render json: @places
+
+    # Fake data
+    #render :json => {id: 'A9ABCD', name: 'Gold', distance: 0.70, channels: 5, image: 'http://d3bro1z16yfjvi.cloudfront.net/images/importance_1.png?1349367920'}.to_json
   end
 
   # GET /places/1
