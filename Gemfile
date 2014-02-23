@@ -2,11 +2,9 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.3'
-#gem 'activeresource'#exploring alternative
-
 gem 'foursquare2'
-
 gem 'pg'
+gem 'active_model_serializers'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'

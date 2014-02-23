@@ -23,13 +23,23 @@ class Place < ActiveRecord::Base
 
       @places_raw.venues.each do |place|
         @places << ((Place.exists?(place.id) && Place.find(place.id)) ||
-                    Place.new(icon: place.categories.first.icon,
-                              foursquare_venue_id: place.id,
+                    Place.new(foursquare_venue_id: place.id,
+                              icon: place.categories.first.icon.to_json,
                               name: place.name,
                               distance: place.location.distance))
       end
 
       @places
+    end
+
+    def get_venue(venue_id)
+      @venue_raw = @@foursq_client.venue(venue_id)
+      puts @venue_raw.to_json
+
+      @place = Place.new(foursquare_venue_id: @venue_raw.id,
+                         icon: @venue_raw.categories.first.icon.to_json,
+                         name: @venue_raw.name,
+                         distance: @venue_raw.location.distance)
     end
   end
 end
