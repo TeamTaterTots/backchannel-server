@@ -1,6 +1,7 @@
 class Channel < ActiveRecord::Base
   belongs_to :place
-  #has_many: :participants
+  has_many :messages
+
   validates_presence_of :place_id, :name
 
   class << self
