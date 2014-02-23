@@ -5,7 +5,6 @@ class PlacesController < ApplicationController
   # GET /places.json
   def index
     @places = Place.search_nearby(params[:latitude], params[:longitude])
-    @places.inspect
 
     render json: @places
   end

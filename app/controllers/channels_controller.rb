@@ -28,8 +28,7 @@ class ChannelsController < ApplicationController
     begin
       @place = Place.find(params[:place_id])
     rescue ActiveRecord::RecordNotFound => e
-      @place = Place.new
-      @place.foursquare_venue_id = params[:place_id]
+      @place = Place.get_venue(params[:place_id])
       @place.save
     end
     @channel = @place.channels.build(channel_params)
