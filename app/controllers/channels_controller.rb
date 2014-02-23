@@ -4,7 +4,8 @@ class ChannelsController < ApplicationController
   # GET /channels
   # GET /channels.json
   def index
-    @channels = Channel.all
+    @channels = Channel.find_nearby(params[:place_id])
+    render json: @channels
   end
 
   # GET /channels/1
