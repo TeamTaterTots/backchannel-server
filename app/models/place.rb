@@ -17,18 +17,16 @@ class Place < ActiveRecord::Base
   class << self
     def search_nearby(latitude, longitude)
       # @client.explore_venues(:ll => "#{latitude},#{longitude}")
+      @existing_places = Place.all(:select => :foursquare_venue_id).to_a
       @places_raw = @@foursq_client.search_venues(:ll => "#{latitude},#{longitude}", :limit => 15)
       @places = []
 
       @places_raw.venues.each do |place|
-        @channels = (Place.exists?(place.id) && Place.find(place.id).channels) || nil
-        @places << {
-          icon: place.categories.first.icon,
-          foursquare_venue_id: place.id,
-          name: place.name,
-          distance: place.location.distance,
-          channels: @channels
-        }
+        @places << ((Place.exists?(place.id) && Place.find(place.id)) ||
+                    Place.new(icon: place.categories.first.icon,
+                              foursquare_venue_id: place.id,
+                              name: place.name,
+                              distance: place.location.distance))
       end
 
       @places
