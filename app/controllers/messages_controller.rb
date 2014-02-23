@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
   # GET /messages.json
   def index
     @channel = Channel.find(params[:channel_id])
-    time = params[:ts] || 10.minutes.ago
+    time = params[:ts] || 2.hours.ago
     @messages = @channel.messages.created_after(time)
 
     render json: @messages
