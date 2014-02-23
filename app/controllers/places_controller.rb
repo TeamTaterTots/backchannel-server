@@ -4,17 +4,18 @@ class PlacesController < ApplicationController
   # GET /places
   # GET /places.json
   def index
-    @places = Place.find_nearby(params[:latitude], params[:longitude])
+    @places = Place.search_nearby(params[:latitude], params[:longitude])
+    @places.inspect
 
     render json: @places
-
-    # Fake data
-    #render :json => {id: 'A9ABCD', name: 'Gold', distance: 0.70, channels: 5, image: 'http://d3bro1z16yfjvi.cloudfront.net/images/importance_1.png?1349367920'}.to_json
   end
 
   # GET /places/1
   # GET /places/1.json
   def show
+    @place = Place.find(params[:id])
+
+    render json: @place
   end
 
   # GET /places/new
@@ -33,10 +34,10 @@ class PlacesController < ApplicationController
 
     respond_to do |format|
       if @place.save
-        format.html { redirect_to @place, notice: 'Place was successfully created.' }
+        # format.html { redirect_to @place, notice: 'Place was successfully created.' }
         format.json { render action: 'show', status: :created, location: @place }
       else
-        format.html { render action: 'new' }
+        # format.html { render action: 'new' }
         format.json { render json: @place.errors, status: :unprocessable_entity }
       end
     end
@@ -47,10 +48,10 @@ class PlacesController < ApplicationController
   def update
     respond_to do |format|
       if @place.update(place_params)
-        format.html { redirect_to @place, notice: 'Place was successfully updated.' }
+        # format.html { redirect_to @place, notice: 'Place was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: 'edit' }
+        # format.html { render action: 'edit' }
         format.json { render json: @place.errors, status: :unprocessable_entity }
       end
     end
@@ -61,7 +62,7 @@ class PlacesController < ApplicationController
   def destroy
     @place.destroy
     respond_to do |format|
-      format.html { redirect_to places_url }
+      # format.html { redirect_to places_url }
       format.json { head :no_content }
     end
   end
